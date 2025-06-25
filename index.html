@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
+<html lang="vi"><head>
+
+
   <meta charset="UTF-8">
   <title>Robot Dự Đoán Game</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -18,11 +18,73 @@
       justify-content: center;
       align-items: center;
     }
+    .login-container {
+      background: #1c2431;
+      padding: 40px 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      width: 90%;
+      max-width: 500px;
+    }
+    .login-container h2 {
+      color: rgba(255, 255, 255, 0.1);
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    .login-container label {
+      color: #ccc;
+      font-size: 15px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .login-container input[type="text"] {
+      width: 100%;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #2f3b4c;
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    .checkbox {
+      display: flex;
+      align-items: center;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+    .checkbox input {
+      margin-right: 10px;
+    }
+    .login-container button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #2196f3;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .login-container button:hover {
+      background: #0d8bf2;
+    }
+    .error {
+      color: yellow;
+      font-weight: bold;
+      font-size: 14px;
+      margin-top: 15px;
+      text-align: center;
+    }
     #gameMenu {
       position: fixed;
       inset: 0;
       background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
-      display: flex;
+      display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -132,6 +194,17 @@
   </style>
 </head>
 <body>
+  <div class="login-container">
+    <h2>Đăng nhập Key Người dùng</h2>
+    <label for="keyInput">Nhập Key của bạn:</label>
+    <input type="text" id="keyInput" placeholder="Key của bạn">
+    <div class="checkbox">
+      <input type="checkbox" id="rememberKey">
+      <label for="rememberKey">Lưu Key trên trình duyệt</label>
+    </div>
+    <button onclick="checkKey()">Đăng nhập</button>
+    <div class="error" id="errorMsg"></div>
+  </div>
 
   <div id="gameMenu">
     <h2>🎮 Chọn Game Bạn Muốn Chơi</h2>
@@ -146,7 +219,7 @@
 
   <div id="robotBox">
     <div id="robotBoxInner">
-      <img id="robotIcon" src="https://cdn-icons-png.flaticon.com/512/4712/4712106.png" alt="Robot">
+      <img id="robotIcon" src="robot-dudoan.png" alt="Robot">
       <div id="info">
         <div id="phien">Phiên: ...</div>
         <div id="tinCay">Dự đoán: ...</div>
@@ -155,50 +228,7 @@
     </div>
   </div>
 
-  <script>
-    function startGame(game) {
-      document.getElementById("gameMenu").style.display = "none";
-      document.getElementById("sunwinFrame").style.display = "none";
-      document.getElementById("lc79Frame").style.display = "none";
-      document.getElementById("sumclubFrame").style.display = "none";
+  
 
-      document.getElementById(game + "Frame").style.display = "block";
-    }
 
-    function rotateBox() {
-      const box = document.getElementById("robotBoxInner");
-      box.style.transform = `rotate(${Math.random() * 360}deg)`;
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const robotBox = document.getElementById("robotBox");
-      const phienEl = document.getElementById("phien");
-      const tinCayEl = document.getElementById("tinCay");
-
-      function fetchPrediction() {
-        fetch("https://vanwnhataixiu.up.railway.app/api/du-doan")
-          .then(res => res.json())
-          .then(data => {
-            console.log("Dữ liệu API:", data);
-            if (data && data.Next_phien && data.prediction && data.tincay !== undefined) {
-              phienEl.innerHTML = `Phiên: <strong>${data.Next_phien}</strong>`;
-              tinCayEl.innerHTML = `Dự đoán: <strong>${data.prediction}</strong> (Tin cậy: ${data.tincay}%)`;
-              robotBox.style.display = "block";
-            } else {
-              phienEl.innerHTML = "Không có dữ liệu hợp lệ";
-            }
-          })
-          .catch(err => {
-            console.error("Lỗi kết nối API:", err);
-            phienEl.innerHTML = "Lỗi kết nối API";
-          });
-      }
-
-      // Gọi lần đầu & cập nhật mỗi 15 giây
-      fetchPrediction();
-      setInterval(fetchPrediction, 15000);
-    });
-  </script>
-
-</body>
-</html>
+</body></html>
