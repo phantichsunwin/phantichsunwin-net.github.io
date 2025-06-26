@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Giới thiệu Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    header {
+      background: #121212;
+      padding: 20px 0;
+      text-align: center;
+      border-bottom: 2px solid #00bcd4;
+      position: relative;
+    }
+
+    .navbar h1 {
+      font-size: 32px;
+      color: #00bcd4;
+      margin-bottom: 10px;
+    }
+
+    .back-home {
+      position: absolute;
+      left: 15px;
+      bottom: -50px;
+    }
+
+    .support-button {
+      padding: 10px 16px;
+      background: linear-gradient(45deg, #00bcd4, #0097a7);
+      color: white;
+      font-size: 14px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      white-space: nowrap;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .support-button:hover {
+      background: linear-gradient(45deg, #0097a7, #00bcd4);
+      transform: scale(1.05);
+    }
+
+    main {
+      flex: 1;
+      padding: 60px 20px 40px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 188, 212, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #00bcd4;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .admin-profile {
+      background-color: #2c2c2c;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .admin-profile:hover {
+      transform: translateY(-5px);
+    }
+
+    .admin-profile h3 {
+      color: #00e5ff;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .admin-profile p {
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    footer {
+      background-color: #121212;
+      color: #777;
+      padding: 15px 0;
+      text-align: center;
+      font-size: 14px;
+      border-top: 1px solid #333;
+    }
+
+    @media (max-width: 600px) {
+      .admin-profile {
+        padding: 15px;
+      }
+
+      .support-button {
+        font-size: 12px;
+        padding: 8px;
+      }
+
+      .back-home {
+        bottom: -25px;
+        left: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <h1>Thành Viên CSKH-Admin</h1>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2>Giới thiệu các Admin</h2>
+
+      <div class="admin-profile">
+        <h3>Admin</h3>
+        <p><strong>Tên:</strong> Lê Xuân Đạt</p>
+        <p><strong>Chức vụ:</strong> Quản Lý Hệ Thống Phân Tích - Tư Vấn</p>
+        <p><strong>Giới thiệu:</strong> Chịu trách nhiệm quản lý, bảo trì hệ thống phân tích và giải quyết các vấn đề kỹ thuật.</p>
+        <div class="button-group">
+          <a href="https://t.me/ledat09878" class="support-button">Admin</a>
+        </div>
+      </div>
+
+      <div class="admin-profile">
+        <h3>CSKH</h3>
+        <p><strong>Tên:</strong> Đỗ Trung Việt</p>
+        <p><strong>Chức vụ:</strong> Hỗ Trợ Chăm Sóc Khách Hàng</p>
+        <p><strong>Giới thiệu:</strong> Cung cấp hỗ trợ người dùng và giải quyết các yêu cầu, thắc mắc về chất lượng sản phẩm/dịch vụ.</p>
+        <div class="button-group">
+          <a href="https://t.me/Dung1132" class="support-button">CSKH</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; Công Ty Phân Tích Dữ Liệu - CSKH Uy Tín</p>
+  </footer>
+</body>
+</html>
