@@ -2,102 +2,231 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Robot Dự Đoán SunWin</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    html, body {
-      margin: 0; padding: 0; background: #0d111c; color: #fff;
-      font-family: 'Segoe UI', sans-serif; height: 100vh;
-    }
-    #main {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 20px;
-    }
-    #gameIcon {
-      width: 100px; border-radius: 14px; margin-bottom: 20px;
-      box-shadow: 0 0 10px cyan;
-    }
-    #robotBox {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 20px 30px;
-      border-radius: 16px;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
-      text-align: center;
-    }
-    #robotImg {
-      width: 60px;
-      animation: float 3s ease-in-out infinite;
-      margin-bottom: 10px;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-    }
-    #phien, #ketqua {
-      font-size: 20px;
-      margin: 8px 0;
-      text-shadow: 0 0 6px cyan;
-    }
-    button {
-      margin-top: 20px;
-      padding: 12px 24px;
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      background: #00c6ff;
-      color: #fff;
-      box-shadow: 0 0 10px #00c6ff;
-      transition: 0.3s;
-    }
-    button:hover {
-      background: #009fd9;
-      box-shadow: 0 0 18px #00c6ff;
-    }
-  </style>
+  <title>Đăng nhập - SunWin Tool</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="main">
-    <img id="gameIcon" src="https://i.postimg.cc/cHHrbqXp/IMG-20250626-083952-257.jpg" alt="SunWin">
-    <div id="robotBox">
-      <img id="robotImg" src="https://i.postimg.cc/v8CtfXmY/IMG-20250626-083938.jpg" alt="Robot AI">
-      <div id="phien">Đang tải phiên...</div>
-      <div id="ketqua">Đang phân tích...</div>
-      <button onclick="layDuDoan()">🔄 Lấy lại dự đoán</button>
-    </div>
+  <div class="login-box">
+    <h2>ĐĂNG NHẬP</h2>
+    <input type="text" id="loginUser" placeholder="Tên đăng nhập">
+    <input type="password" id="loginPass" placeholder="Mật khẩu">
+    <button onclick="login()">Đăng nhập</button>
+    <p>Chưa có tài khoản? <a href="register.html">Đăng ký</a></p>
   </div>
-
-  <script>
-    async function layDuDoan() {
-      const phienEl = document.getElementById("phien");
-      const ketquaEl = document.getElementById("ketqua");
-      phienEl.textContent = "Đang tải phiên...";
-      ketquaEl.textContent = "Đang phân tích...";
-
-      try {
-        const res = await fetch("https://wanglinapiws.up.railway.app/api/taixiu");
-        const data = await res.json();
-
-        if (data && data.phien && data.ketqua) {
-          phienEl.textContent = `🆔 Phiên: ${data.phien}`;
-          ketquaEl.textContent = `🤖 Dự đoán: ${data.ketqua.toUpperCase()}`;
-        } else {
-          phienEl.textContent = "❌ Không có dữ liệu phiên!";
-          ketquaEl.textContent = "Vui lòng thử lại.";
-        }
-      } catch (err) {
-        phienEl.textContent = "❌ Lỗi kết nối API!";
-        ketquaEl.textContent = "Kiểm tra mạng hoặc API.";
-        console.error(err);
-      }
-    }
-
-    // Gọi dự đoán khi trang vừa mở
-    window.onload = layDuDoan;
-  </script>
+  <script src="auth.js"></script>
 </body>
 </html>
+function register() {
+  const u = document.getElementById("regUser").value;
+  const p = document.getElementById("regPass").value;
+  const c = document.getElementById("regConfirm").value;
+  if (!u || !p || p !== c) return alert("Vui lòng nhập đầy đủ và đúng mật khẩu.");
+  let users = JSON.parse(localStorage.getItem("users") || "[]");
+  if (users.find(x => x.user === u)) return alert("Tài khoản đã tồn tại.");
+  users.push({ user: u, pass: p });
+  localStorage.setItem("users", JSON.stringify(users));
+  alert("Đăng ký thành công."); location.href = "login.html";
+}
+
+function login() {
+  const u = document.getElementById("loginUser").value;
+  const p = document.getElementById("loginPass").value;
+  let users = JSON.parse(localStorage.getItem("users") || "[]");
+  if (users.find(x => x.user === u && x.pass === p)) {
+    localStorage.setItem("loggedInUser", u);
+    location.href = "index.html";
+  } else alert("Sai tài khoản hoặc mật khẩu.");
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng ký - SunWin Tool</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="login-box">
+    <h2>ĐĂNG KÝ</h2>
+    <input type="text" id="regUser" placeholder="Tên đăng nhập">
+    <input type="password" id="regPass" placeholder="Mật khẩu">
+    <input type="password" id="regConfirm" placeholder="Xác nhận mật khẩu">
+    <button onclick="register()">Đăng ký</button>
+    <p>Đã có tài khoản? <a href="login.html">Đăng nhập</a></p>
+  </div>
+  <script src="auth.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>TOOL PHÂN TÍCH SUNWIN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="tool-box">
+      <h1>TOOL PHÂN TÍCH SUNWIN</h1>
+      <div class="result" id="result">Đang phân tích...</div>
+      <div class="round" id="round">Phiên: ...</div>
+      <div class="note" id="note"></div>
+      <div class="history-title">Lịch sử dự đoán:</div>
+      <div class="history" id="history"></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+const API_URL = "https://wanglinapiws.up.railway.app/api/taixiu";
+
+const mau_cau_xau = [
+  "TXXTX", "TXTXT", "XXTXX", "XTXTX", "TTXTX", "XTTXT", "TXXTT", "TXTTX",
+  "XXTTX", "XTXTT", "TXTXX", "XXTXT", "TTXXT", "TXTTT", "XTXTX", "XTXXT",
+  "XTTTX", "TTXTT", "XTXTT", "TXXTX"
+];
+
+const mau_cau_dep = [
+  "TTTTT", "XXXXX", "TTTXX", "XXTTT", "TXTXX", "TTTXT", "XTTTX", "TXXXT",
+  "XXTXX", "TXTTT", "XTTTT", "TTXTX", "TXXTX", "TXTXT", "XTXTX", "TTTXT",
+  "XTTXT", "TXTXT", "XXTXX", "TXXXX"
+];
+
+function fetchData() {
+  fetch(API_URL)
+    .then(res => res.json())
+    .then(data => {
+      const { du_doan, phien, lich_su } = data;
+
+      document.getElementById("result").innerText = du_doan;
+      document.getElementById("round").innerText = "Phiên: " + phien;
+
+      let cau = lich_su.slice(0, 5).map(e => e.du_doan[0]).join("");
+      let note = "";
+
+      if (mau_cau_xau.includes(cau)) {
+        note = "⚠️ Cầu xấu (" + cau + ") - Đảo ngược kết quả!";
+      } else if (mau_cau_dep.includes(cau)) {
+        note = "✅ Cầu đẹp (" + cau + ") - Giữ nguyên kết quả!";
+      } else {
+        note = "ℹ️ Không phát hiện cầu rõ ràng (" + cau + ")";
+      }
+
+      document.getElementById("note").innerText = note;
+
+      const historyBox = document.getElementById("history");
+      historyBox.innerHTML = lich_su.map(item => {
+        let color = item.trang_thai === "THẮNG" ? "lime" : "red";
+        return `<div>
+          <b>${item.id}</b> | ${item.du_doan} | 
+          <span style="color:${color}">${item.trang_thai}</span> | ${item.thoi_gian}
+        </div>`;
+      }).join("");
+    })
+    .catch(err => {
+      console.error("Lỗi khi gọi API:", err);
+      document.getElementById("result").innerText = "Lỗi API!";
+    });
+}
+
+setInterval(fetchData, 3000);
+fetchData();
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Courier New', monospace;
+  background: linear-gradient(145deg, #0f2027, #203a43, #2c5364);
+  color: #00ffc3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+}
+
+.tool-box {
+  background-color: #001f1f;
+  border: 2px solid #00ffc3;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 0 15px #00ffc3;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 15px;
+}
+
+.result {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #00ffe5;
+}
+
+.round {
+  margin-bottom: 10px;
+}
+
+.note {
+  margin-bottom: 10px;
+  font-style: italic;
+  color: yellow;
+}
+
+.history-title {
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.history {
+  background-color: #000;
+  border: 1px solid #00ffc3;
+  padding: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 14px;
+  text-align: left;
+}
+
+.login-box {
+  background-color: #001f1f;
+  border: 2px solid #00ffc3;
+  border-radius: 10px;
+  padding: 25px;
+  width: 90%;
+  max-width: 400px;
+  margin: auto;
+  text-align: center;
+  box-shadow: 0 0 15px #00ffc3;
+}
+
+.login-box input {
+  width: 90%;
+  padding: 10px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 8px;
+}
+
+.login-box button {
+  background-color: #00ffc3;
+  color: #000;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.login-box a {
+  color: #00ffc3;
+  text-decoration: none;
+}
+    
