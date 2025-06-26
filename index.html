@@ -1,234 +1,103 @@
-<html lang="vi"><head>
-
-
+<!DOCTYPE html>
+<html lang="vi">
+<head>
   <meta charset="UTF-8">
-  <title>Robot Dự Đoán Game</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Robot Dự Đoán SunWin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
     html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: #0d111c;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      margin: 0; padding: 0; background: #0d111c; color: #fff;
+      font-family: 'Segoe UI', sans-serif; height: 100vh;
     }
-    .login-container {
-      background: #1c2431;
-      padding: 40px 20px;
-      border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-      width: 90%;
-      max-width: 500px;
-    }
-    .login-container h2 {
-      color: rgba(255, 255, 255, 0.1);
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 25px;
-      text-align: center;
-    }
-    .login-container label {
-      color: #ccc;
-      font-size: 15px;
-      display: block;
-      margin-bottom: 10px;
-    }
-    .login-container input[type="text"] {
-      width: 100%;
-      padding: 14px 20px;
-      border: none;
-      border-radius: 10px;
-      background: #2f3b4c;
-      color: #fff;
-      font-size: 16px;
-      margin-bottom: 15px;
-    }
-    .checkbox {
-      display: flex;
-      align-items: center;
-      color: #ccc;
-      margin-bottom: 20px;
-    }
-    .checkbox input {
-      margin-right: 10px;
-    }
-    .login-container button {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      background: #2196f3;
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .login-container button:hover {
-      background: #0d8bf2;
-    }
-    .error {
-      color: yellow;
-      font-weight: bold;
-      font-size: 14px;
-      margin-top: 15px;
-      text-align: center;
-    }
-    #gameMenu {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 9998;
+    #main {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
       padding: 20px;
-      text-align: center;
-      border: 2px solid rgba(0,255,255,0.2);
-      border-radius: 20px;
     }
-    #gameMenu h2 {
-      font-size: 28px;
-      color: #ffffff;
-      margin-bottom: 30px;
-      text-shadow: 0 0 12px #00e6e6, 0 0 18px #00e6e6;
-      letter-spacing: 1px;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-      padding-bottom: 10px;
-      width: 80%;
-      max-width: 400px;
-    }
-    .gameBtn {
-      padding: 16px 36px;
-      margin: 14px;
-      font-size: 18px;
-      font-weight: bold;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 16px;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.05);
-      color: #00ffff;
-      box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
-      transition: all 0.3s ease;
-      text-shadow: 0 0 6px #00ffff;
-      width: 260px;
-      backdrop-filter: blur(6px);
-    }
-    .gameBtn:hover {
-      background: rgba(0, 255, 255, 0.1);
-      transform: scale(1.05);
-      box-shadow: 0 0 24px rgba(0, 255, 255, 0.3);
-    }
-    iframe {
-      width: 100vw;
-      height: 100vh;
-      border: none;
-      display: none;
+    #gameIcon {
+      width: 100px; border-radius: 14px; margin-bottom: 20px;
+      box-shadow: 0 0 10px cyan;
     }
     #robotBox {
-      position: fixed;
-      left: 50%;
-      top: 85%;
-      transform: translate(-50%, -50%);
-      z-index: 9999;
-      display: none;
-      touch-action: none;
-    }
-    #robotBoxInner {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 16px;
-      border-radius: 14px;
       background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.15);
-      cursor: grab;
-      max-width: 90vw;
-      overflow: hidden;
-      white-space: nowrap;
-      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 20px 30px;
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
+      text-align: center;
     }
-    #robotIcon {
-      width: 44px;
-      height: 44px;
-      animation: float 3s infinite ease-in-out;
-      flex-shrink: 0;
+    #robotImg {
+      width: 60px;
+      animation: float 3s ease-in-out infinite;
+      margin-bottom: 10px;
     }
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-5px); }
     }
-    #info {
-      color: #fff;
-      font-size: 14px;
-      overflow: hidden;
-      word-break: break-word;
-      max-width: calc(100vw - 150px);
-      line-height: 1.2;
+    #phien, #ketqua {
+      font-size: 20px;
+      margin: 8px 0;
+      text-shadow: 0 0 6px cyan;
     }
-    #info strong {
-      color: #00ffff;
-    }
-    #rotateBtn {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      background: #00c6ff;
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
       border: none;
-      border-radius: 50%;
-      width: 22px;
-      height: 22px;
-      color: white;
-      font-size: 14px;
+      border-radius: 10px;
       cursor: pointer;
-      padding: 0;
+      background: #00c6ff;
+      color: #fff;
+      box-shadow: 0 0 10px #00c6ff;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #009fd9;
+      box-shadow: 0 0 18px #00c6ff;
     }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <h2>Đăng nhập Key Người dùng</h2>
-    <label for="keyInput">Nhập Key của bạn:</label>
-    <input type="text" id="keyInput" placeholder="Key của bạn">
-    <div class="checkbox">
-      <input type="checkbox" id="rememberKey">
-      <label for="rememberKey">Lưu Key trên trình duyệt</label>
-    </div>
-    <button onclick="checkKey()">Đăng nhập</button>
-    <div class="error" id="errorMsg"></div>
-  </div>
-
-  <div id="gameMenu">
-    <h2>🎮 Chọn Game Bạn Muốn Chơi</h2>
-    <button class="gameBtn" onclick="startGame('sunwin')">🌞 SunWin</button>
-    <button class="gameBtn" onclick="startGame('lc79')">🦀 LC79</button>
-    <button class="gameBtn" onclick="startGame('sumclub')">🎲 SumClub</button>
-  </div>
-
-  <iframe id="sunwinFrame" src="https://web.sunwin.us/"></iframe>
-  <iframe id="lc79Frame" src="https://play.lc79.bet/"></iframe>
-  <iframe id="sumclubFrame" src="https://play.sum.club/"></iframe>
-
-  <div id="robotBox">
-    <div id="robotBoxInner">
-      <img id="robotIcon" src="robot-dudoan.png" alt="Robot">
-      <div id="info">
-        <div id="phien">Phiên: ...</div>
-        <div id="tinCay">Dự đoán: ...</div>
-      </div>
-      <button id="rotateBtn" onclick="rotateBox()">↻</button>
+  <div id="main">
+    <img id="gameIcon" src="https://i.postimg.cc/cHHrbqXp/IMG-20250626-083952-257.jpg" alt="SunWin">
+    <div id="robotBox">
+      <img id="robotImg" src="https://i.postimg.cc/v8CtfXmY/IMG-20250626-083938.jpg" alt="Robot AI">
+      <div id="phien">Đang tải phiên...</div>
+      <div id="ketqua">Đang phân tích...</div>
+      <button onclick="layDuDoan()">🔄 Lấy lại dự đoán</button>
     </div>
   </div>
 
-  
+  <script>
+    async function layDuDoan() {
+      const phienEl = document.getElementById("phien");
+      const ketquaEl = document.getElementById("ketqua");
+      phienEl.textContent = "Đang tải phiên...";
+      ketquaEl.textContent = "Đang phân tích...";
 
+      try {
+        const res = await fetch("https://wanglinapiws.up.railway.app/api/taixiu");
+        const data = await res.json();
 
-</body></html>
+        if (data && data.phien && data.ketqua) {
+          phienEl.textContent = `🆔 Phiên: ${data.phien}`;
+          ketquaEl.textContent = `🤖 Dự đoán: ${data.ketqua.toUpperCase()}`;
+        } else {
+          phienEl.textContent = "❌ Không có dữ liệu phiên!";
+          ketquaEl.textContent = "Vui lòng thử lại.";
+        }
+      } catch (err) {
+        phienEl.textContent = "❌ Lỗi kết nối API!";
+        ketquaEl.textContent = "Kiểm tra mạng hoặc API.";
+        console.error(err);
+      }
+    }
+
+    // Gọi dự đoán khi trang vừa mở
+    window.onload = layDuDoan;
+  </script>
+</body>
+</html>
